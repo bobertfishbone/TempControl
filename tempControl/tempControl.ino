@@ -155,7 +155,6 @@ void loop()
         stageduration[i] = millis() - zeroedtime;
 
       }
-      //break; 
     }
   }
 
