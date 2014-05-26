@@ -31,7 +31,7 @@ unsigned long stageduration[15]; // Captures how long the temp-based stages actu
 unsigned int maxtemp[15]; // Setpoint for each stage
 unsigned int outtemp[15]; // When exhaust temp hits this temperature, move to next stage
 unsigned long newTime, previousTime;
-unsigned long intervalTime = 1500;
+unsigned long intervalTime = 3000; // How long Arduino waits to toggle Powertail
 
 
 void setup()
