@@ -30,6 +30,9 @@ unsigned long duration[15]; // Duration of each stage
 unsigned long stageduration[15]; // Captures how long the temp-based stages actually take
 unsigned int maxtemp[15]; // Setpoint for each stage
 unsigned int outtemp[15]; // When exhaust temp hits this temperature, move to next stage
+unsigned long newTime, previousTime;
+unsigned long intervalTime = 3000; // How long Arduino waits to toggle Powertail
+
 
 void setup()
 {
@@ -168,7 +171,7 @@ void loop()
     // Loop through each stage; display duration of temp-based stages in minutes
     for(byte i = 1; i < stages+1; i++)
     {
-      if (duration[i] = 0)
+      if (duration[i] < 1000)
       {
         lcd.clear();
         lcd.setCursor(0,0);
@@ -222,11 +225,16 @@ void pidCompute(double temp) {
   if(now - windowStartTime>WindowSize) { 
     windowStartTime += WindowSize; 
   } 
-  if(Output > now - windowStartTime) { 
-    digitalWrite(powerPin, HIGH); 
-  } 
-  else { 
-    digitalWrite(powerPin, LOW); 
+  newTime = millis();
+  if(newTime - previousTime > intervalTime)
+  {
+    if(Output > now - windowStartTime) { 
+      digitalWrite(powerPin, HIGH); 
+    } 
+    else { 
+      digitalWrite(powerPin, LOW); 
+    }
+    previousTime = newTime;
   }
 }
 
@@ -273,6 +281,7 @@ void updateLCD(byte i, byte stages, double setpoint, double inTemp, double exhau
     lcd.print(stagetemp); 
   }
 }
+
 
 
 
