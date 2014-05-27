@@ -171,7 +171,7 @@ void loop()
     // Loop through each stage; display duration of temp-based stages in minutes
     for(byte i = 1; i < stages+1; i++)
     {
-      if (duration[i] = 0)
+      if (duration[i] < 1000)
       {
         lcd.clear();
         lcd.setCursor(0,0);
